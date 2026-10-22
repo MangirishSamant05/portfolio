@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* Theme is chosen by data-theme on <html> (set before paint by ThemeScript). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ----------------------------------------------------------------------------
+ * Design tokens. Components only use these names, so both themes stay in sync.
+ * Chart colours (viz-1..4) were run through a colour-vision-deficiency check
+ * against each theme's surface.
+ * ------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --surface-2: #eaeff3;
+  --line: #d6dee5;
+  --line-strong: #b9c6d1;
+  --ink: #122230;
+  --muted: #4c5f6f;
+  --faint: #6f8191;
+  --accent: #0b7a6e;
+  --accent-ink: #ffffff;
+  --accent-soft: #dcefec;
+  --viz-1: #0e8c7e;
+  --viz-2: #b7791f;
+  --viz-3: #3463d1;
+  --viz-4: #c2456a;
+  --grid: #e3e9ee;
+  --shadow: 0 1px 2px rgb(18 34 48 / 0.06), 0 8px 24px -12px rgb(18 34 48 / 0.18);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f1922;
+  --surface: #15212c;
+  --surface-2: #1b2a37;
+  --line: #253645;
+  --line-strong: #34495b;
+  --ink: #e6edf2;
+  --muted: #9aacbb;
+  --faint: #73879a;
+  --accent: #4fd1be;
+  --accent-ink: #062520;
+  --accent-soft: #173a3a;
+  --viz-1: #29a898;
+  --viz-2: #b68630;
+  --viz-3: #5c86e0;
+  --viz-4: #d96b86;
+  --grid: #1e2e3b;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -16px rgb(0 0 0 / 0.6);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-viz-1: var(--viz-1);
+  --color-viz-2: var(--viz-2);
+  --color-viz-3: var(--viz-3);
+  --color-viz-4: var(--viz-4);
+  --color-grid: var(--grid);
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --shadow-card: var(--shadow);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  /* Numbers in tables and metrics line up. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Packets travelling along the data-pipeline track (left/top are % of the track). */
+@keyframes packet-x {
+  0% { left: 0%; opacity: 0; }
+  6% { opacity: 1; }
+  94% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+@keyframes packet-y {
+  0% { top: 0%; opacity: 0; }
+  6% { opacity: 1; }
+  94% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes stage-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
